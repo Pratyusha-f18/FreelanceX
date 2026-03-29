@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import { BASE_URL } from "../config";
+import BASE_URL from "../config";
 
 function Payment() {
   const { state } = useLocation();

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BASE_URL } from "../config";
+import BASE_URL from "../config";   // ✅ FIXED
+
 function Services() {
   const [services, setServices] = useState([]);
   const [reviews, setReviews] = useState({});
@@ -15,31 +16,31 @@ function Services() {
       .then(res => res.json())
       .then(data => {
         if (data.length === 0) {
-  setServices([
-    {
-      id: 1,
-      title: "Web Development",
-      description: "Build modern websites",
-      price: 500,
-      rating: 4.5,
-      imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085"
-    },
-    {
-      id: 2,
-      title: "Logo Design",
-      description: "Creative logo design",
-      price: 200,
-      rating: 4.7,
-      imageUrl: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e"
-    }
-  ]);
-} else {
-  setServices(data);
-}
+          setServices([
+            {
+              id: 1,
+              title: "Web Development",
+              description: "Build modern websites",
+              price: 500,
+              rating: 4.5,
+              imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+            },
+            {
+              id: 2,
+              title: "Logo Design",
+              description: "Creative logo design",
+              price: 200,
+              rating: 4.7,
+              imageUrl: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e"
+            }
+          ]);
+        } else {
+          setServices(data);
+        }
 
-        // fetch reviews
+        // ✅ FIXED reviews API
         data.forEach(s => {
-          fetch(`http://localhost:8081/book/service/${s.title}`)
+          fetch(`${BASE_URL}/book/service/${s.title}`)
             .then(res => res.json())
             .then(r => {
               setReviews(prev => ({ ...prev, [s.title]: r }));
@@ -49,8 +50,9 @@ function Services() {
       .catch(() => setServices([]));
   }, []);
 
+  // ✅ FIXED delete
   const deleteService = (id) => {
-    fetch(`http://localhost:8081/services/${id}`, {
+    fetch(`${BASE_URL}/services/${id}`, {
       method: "DELETE"
     }).then(() => {
       alert("Deleted ✅");
@@ -63,22 +65,13 @@ function Services() {
   );
 
   return (
-    <div style={{ padding: "30px", color: "white" }}>
+    <div style={{ padding: "30px", color: "#111" }}>
       <h2>Services 🔍</h2>
 
       <div style={styles.grid}>
         {filtered.map((s) => (
-          <div
-  style={styles.card}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.transform = "scale(1.05)";
-    e.currentTarget.style.boxShadow = "0 0 20px #38bdf8";
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = "scale(1)";
-    e.currentTarget.style.boxShadow = "0 0 10px rgba(56,189,248,0.2)";
-  }}
->
+          <div key={s.id} style={styles.card}>
+
             <img
               src={
                 s.imageUrl && s.imageUrl !== ""
@@ -99,42 +92,36 @@ function Services() {
               {(reviews[s.title] || []).slice(0, 2).map((r, i) => (
                 <div key={i} style={styles.review}>
                   ⭐ {r.rating || 5} - {r.comment || "Good service"}
-                  onMouseEnter={(e) => {
-  e.currentTarget.style.transform = "translateY(-5px)";
-}}
-onMouseLeave={(e) => {
-  e.currentTarget.style.transform = "translateY(0)";
-}}
                 </div>
               ))}
             </div>
 
             <button
-  style={styles.button}
-  onClick={() => {
-    if (!user || user.role !== "customer") {
-      alert("Only customers can book ❗");
-      return;
-    }
+              style={styles.button}
+              onClick={() => {
+                if (!user || user.role !== "customer") {
+                  alert("Only customers can book ❗");
+                  return;
+                }
 
-    fetch("http://localhost:8081/book", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        customerName: user.name,
-        serviceName: s.title,
-        status: "PENDING"
-      })
-    }).then(() => {
-      alert("Booked ✅ Waiting for freelancer");
-    });
-  }}
->
-  Book Now
-</button>
-            {/* DELETE BUTTON */}
+                fetch(`${BASE_URL}/book`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    customerName: user.name,
+                    serviceName: s.title,
+                    status: "PENDING"
+                  })
+                }).then(() => {
+                  alert("Booked ✅ Waiting for freelancer");
+                });
+              }}
+            >
+              Book Now
+            </button>
+
             {user?.role === "freelancer" && (
               <button
                 style={styles.deleteBtn}
@@ -157,20 +144,18 @@ const styles = {
     gap: "25px"
   },
 
- card: {
-  background: "white",
-  borderRadius: "10px",
-  overflow: "hidden",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-  padding: "15px",
-  color: "#111"   // ✅ ADD THIS
-},
+  card: {
+    background: "white",
+    borderRadius: "10px",
+    padding: "15px",
+    color: "#111"
+  },
 
   image: {
-  width: "100%",
-  height: "160px",
-  objectFit: "cover"
-},
+    width: "100%",
+    height: "160px",
+    objectFit: "cover"
+  },
 
   button: {
     marginTop: "10px",
@@ -198,7 +183,7 @@ const styles = {
   },
 
   review: {
-    background: "#111827",
+    background: "#f1f5f9",
     padding: "6px",
     borderRadius: "5px",
     marginTop: "5px",

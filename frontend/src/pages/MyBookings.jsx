@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../config";
 
 function MyBookings() {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${BASE_URL}/services`)
+    fetch(`${BASE_URL}/book`)
       .then(res => res.json())
       .then(data => setOrders(data));
   }, []);

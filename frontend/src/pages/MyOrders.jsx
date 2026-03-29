@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import BASE_URL from "../config";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/services`)
+    fetch(`${BASE_URL}/book`)
       .then(res => res.json())
       .then(data => setOrders(data));
   }, []);

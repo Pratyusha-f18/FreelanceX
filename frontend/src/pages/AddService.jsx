@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BASE_URL } from "../config";
+import BASE_URL from "../config";
 
 function AddService() {
   const user = JSON.parse(localStorage.getItem("user"));
