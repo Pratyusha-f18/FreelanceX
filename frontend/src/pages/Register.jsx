@@ -30,21 +30,45 @@ function Register() {
 
   return (
     <div style={styles.container}>
-  <div style={styles.form}>
-    <h2 style={styles.title}>Register 🚀</h2>
+      <div style={styles.form}>
+        <h2 style={styles.title}>Register 🚀</h2>
 
-    <input placeholder="Name" style={styles.input} />
-    <input placeholder="Email" style={styles.input} />
-    <input type="password" placeholder="Password" style={styles.input} />
+        <input
+          placeholder="Name"
+          style={styles.input}
+          value={data.name}
+          onChange={(e) => setData({ ...data, name: e.target.value })}
+        />
 
-    <select style={styles.input}>
-      <option>Customer</option>
-      <option>Freelancer</option>
-    </select>
+        <input
+          placeholder="Email"
+          style={styles.input}
+          value={data.email}
+          onChange={(e) => setData({ ...data, email: e.target.value })}
+        />
 
-    <button style={styles.button}>Register</button>
-  </div>
-</div>
+        <input
+          type="password"
+          placeholder="Password"
+          style={styles.input}
+          value={data.password}
+          onChange={(e) => setData({ ...data, password: e.target.value })}
+        />
+
+        <select
+          style={styles.input}
+          value={data.role}
+          onChange={(e) => setData({ ...data, role: e.target.value.toLowerCase() })}
+        >
+          <option value="customer">Customer</option>
+          <option value="freelancer">Freelancer</option>
+        </select>
+
+        <button style={styles.button} onClick={register}>
+          Register
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -56,7 +80,6 @@ const styles = {
     justifyContent: "center",
     alignItems: "center"
   },
-
   form: {
     background: "white",
     padding: "30px",
@@ -65,12 +88,10 @@ const styles = {
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
     textAlign: "center"
   },
-
   title: {
     marginBottom: "20px",
     color: "#1e293b"
   },
-
   input: {
     width: "100%",
     padding: "10px",
@@ -78,7 +99,6 @@ const styles = {
     borderRadius: "6px",
     border: "1px solid #ccc"
   },
-
   button: {
     width: "100%",
     padding: "10px",

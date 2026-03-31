@@ -28,6 +28,7 @@ function Navbar() {
           <>
             <Link to="/login" style={styles.link}>Sign In</Link>
             <Link to="/register" style={styles.joinBtn}>Join</Link>
+            
           </>
         ) : (
           <button

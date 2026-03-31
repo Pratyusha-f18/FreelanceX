@@ -11,32 +11,36 @@ function Login() {
   const navigate = useNavigate();
 
   const login = () => {
-    fetch(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+  fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Login failed");
+      return res.json();
     })
-      .then(res => res.json())
-      .then(user => {
-        if (user && user.email) {
-          localStorage.setItem("user", JSON.stringify(user));
-          alert("Login Successful ✅");
+    .then(user => {
+      if (user && user.email) {
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Login Successful ✅");
 
-          // redirect based on role
-          if (user.role === "freelancer") {
-            navigate("/dashboard");
-          } else {
-            navigate("/services");
-          }
+        if (user.role === "freelancer") {
+          navigate("/dashboard");
         } else {
-          alert("Invalid credentials ❌");
+          navigate("/services");
         }
-      })
-      .catch(() => alert("Server error ❌"));
-  };
-
+      } else {
+        alert("Invalid credentials ❌");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Server error ❌");
+    });
+};
   return (
     <div style={styles.container}>
       <h2>Login 🔐</h2>
