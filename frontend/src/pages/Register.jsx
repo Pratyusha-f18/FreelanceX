@@ -30,24 +30,65 @@ function Register() {
 
   return (
     <div style={styles.container}>
-      <h2>Register 🚀</h2>
+  <div style={styles.form}>
+    <h2 style={styles.title}>Register 🚀</h2>
 
-      <input placeholder="Name" onChange={(e) => setData({ ...data, name: e.target.value })} />
-      <input placeholder="Email" onChange={(e) => setData({ ...data, email: e.target.value })} />
-      <input type="password" placeholder="Password" onChange={(e) => setData({ ...data, password: e.target.value })} />
+    <input placeholder="Name" style={styles.input} />
+    <input placeholder="Email" style={styles.input} />
+    <input type="password" placeholder="Password" style={styles.input} />
 
-      <select onChange={(e) => setData({ ...data, role: e.target.value })}>
-        <option value="customer">Customer</option>
-        <option value="freelancer">Freelancer</option>
-      </select>
+    <select style={styles.input}>
+      <option>Customer</option>
+      <option>Freelancer</option>
+    </select>
 
-      <button onClick={register}>Register</button>
-    </div>
+    <button style={styles.button}>Register</button>
+  </div>
+</div>
   );
 }
 
 const styles = {
-  container: { padding: "40px", maxWidth: "400px", margin: "auto" }
+  container: {
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  form: {
+    background: "white",
+    padding: "30px",
+    borderRadius: "12px",
+    width: "350px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+    textAlign: "center"
+  },
+
+  title: {
+    marginBottom: "20px",
+    color: "#1e293b"
+  },
+
+  input: {
+    width: "100%",
+    padding: "10px",
+    margin: "10px 0",
+    borderRadius: "6px",
+    border: "1px solid #ccc"
+  },
+
+  button: {
+    width: "100%",
+    padding: "10px",
+    background: "#1dbf73",
+    border: "none",
+    borderRadius: "8px",
+    color: "white",
+    fontWeight: "bold",
+    cursor: "pointer"
+  }
 };
 
 export default Register;

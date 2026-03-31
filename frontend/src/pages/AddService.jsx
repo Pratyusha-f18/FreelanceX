@@ -13,7 +13,11 @@ function AddService() {
   });
 
   if (!user || user.role !== "freelancer") {
-    return <h2 style={{ textAlign: "center", color: "white" }}>Only Freelancers can add services ❌</h2>;
+    return (
+      <h2 style={{ textAlign: "center", color: "white" }}>
+        Only Freelancers can add services ❌
+      </h2>
+    );
   }
 
   const submit = () => {
@@ -48,37 +52,102 @@ function AddService() {
 
   return (
     <div style={styles.container}>
-      <h2>Add New Service ➕</h2>
+      <div style={styles.form}>
+        <h2 style={styles.title}>Add New Service ➕</h2>
 
-      <input placeholder="Title" value={data.title}
-        onChange={(e) => setData({ ...data, title: e.target.value })} />
+        <input
+          style={styles.input}
+          placeholder="Title"
+          value={data.title}
+          onChange={(e) =>
+            setData({ ...data, title: e.target.value })
+          }
+        />
 
-      <input placeholder="Description" value={data.description}
-        onChange={(e) => setData({ ...data, description: e.target.value })} />
+        <input
+          style={styles.input}
+          placeholder="Description"
+          value={data.description}
+          onChange={(e) =>
+            setData({ ...data, description: e.target.value })
+          }
+        />
 
-      <input placeholder="Price" value={data.price}
-        onChange={(e) => setData({ ...data, price: e.target.value })} />
+        <input
+          style={styles.input}
+          placeholder="Price"
+          value={data.price}
+          onChange={(e) =>
+            setData({ ...data, price: e.target.value })
+          }
+        />
 
-      <input placeholder="Image URL" value={data.imageUrl}
-        onChange={(e) => setData({ ...data, imageUrl: e.target.value })} />
+        <input
+          style={styles.input}
+          placeholder="Image URL"
+          value={data.imageUrl}
+          onChange={(e) =>
+            setData({ ...data, imageUrl: e.target.value })
+          }
+        />
 
-      <input placeholder="Rating" value={data.rating}
-        onChange={(e) => setData({ ...data, rating: e.target.value })} />
+        <input
+          style={styles.input}
+          placeholder="Rating"
+          value={data.rating}
+          onChange={(e) =>
+            setData({ ...data, rating: e.target.value })
+          }
+        />
 
-      <button onClick={submit}>Add Service</button>
+        <button style={styles.button} onClick={submit}>
+          Add Service
+        </button>
+      </div>
     </div>
   );
 }
 
+// ✅ styles OUTSIDE function
 const styles = {
   container: {
-    padding: "20px",
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  form: {
+    background: "white",
+    padding: "30px",
+    borderRadius: "12px",
+    width: "400px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
     display: "flex",
     flexDirection: "column",
-    gap: "10px",
-    maxWidth: "400px",
-    margin: "auto",
-    color: "white"
+    gap: "12px"
+  },
+
+  title: {
+    textAlign: "center",
+    color: "#1e293b"
+  },
+
+  input: {
+    padding: "10px",
+    borderRadius: "6px",
+    border: "1px solid #ccc"
+  },
+
+  button: {
+    padding: "12px",
+    background: "#1dbf73",
+    border: "none",
+    borderRadius: "8px",
+    color: "white",
+    fontWeight: "bold",
+    cursor: "pointer"
   }
 };
 

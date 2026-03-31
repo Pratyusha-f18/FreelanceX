@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import BASE_URL from "../config";   // ✅ FIXED
+import BASE_URL from "../config";
 
 function Services() {
   const [services, setServices] = useState([]);
@@ -38,7 +38,7 @@ function Services() {
           setServices(data);
         }
 
-        // ✅ FIXED reviews API
+        // fetch reviews
         data.forEach(s => {
           fetch(`${BASE_URL}/book/service/${s.title}`)
             .then(res => res.json())
@@ -50,7 +50,7 @@ function Services() {
       .catch(() => setServices([]));
   }, []);
 
-  // ✅ FIXED delete
+  // DELETE SERVICE
   const deleteService = (id) => {
     fetch(`${BASE_URL}/services/${id}`, {
       method: "DELETE"
@@ -60,23 +60,29 @@ function Services() {
     });
   };
 
+  // FILTER SEARCH
   const filtered = services.filter(s =>
     s.title?.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
-    <div style={{
-  padding: "30px",
-  background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
-  minHeight: "100vh",
-  color: "white"
-}}>
+    <div style={styles.container}>
       <h2>Services 🔍</h2>
+
+      {/* ✅ ADD SERVICE BUTTON (TOP ONLY) */}
+      {user?.role === "freelancer" && (
+        <button
+          style={styles.addBtn}
+          onClick={() => navigate("/add-service")}
+        >
+          ➕ Add Service
+        </button>
+      )}
 
       <div style={styles.grid}>
         {filtered.map((s) => (
           <div key={s.id} style={styles.card}>
-
+            
             <img
               src={
                 s.imageUrl && s.imageUrl !== ""
@@ -101,8 +107,9 @@ function Services() {
               ))}
             </div>
 
+            {/* BOOK BUTTON */}
             <button
-              style={styles.button}
+              style={styles.bookBtn}
               onClick={() => {
                 if (!user || user.role !== "customer") {
                   alert("Only customers can book ❗");
@@ -127,14 +134,16 @@ function Services() {
               Book Now
             </button>
 
+            {/* DELETE BUTTON */}
             {user?.role === "freelancer" && (
               <button
                 style={styles.deleteBtn}
                 onClick={() => deleteService(s.id)}
               >
-                ❌
+                ❌ Delete
               </button>
             )}
+
           </div>
         ))}
       </div>
@@ -143,6 +152,23 @@ function Services() {
 }
 
 const styles = {
+  container: {
+    padding: "30px",
+    background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
+    minHeight: "100vh",
+    color: "white"
+  },
+
+  addBtn: {
+    marginBottom: "20px",
+    padding: "10px 15px",
+    background: "#2563eb",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer"
+  },
+
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
@@ -150,20 +176,21 @@ const styles = {
   },
 
   card: {
-  background: "#1e293b",
-  borderRadius: "12px",
-  padding: "15px",
-  color: "white",
-  boxShadow: "0 5px 15px rgba(0,0,0,0.3)"
-},
+    background: "#1e293b",
+    borderRadius: "12px",
+    padding: "15px",
+    color: "white",
+    boxShadow: "0 5px 15px rgba(0,0,0,0.3)"
+  },
 
   image: {
     width: "100%",
     height: "160px",
-    objectFit: "cover"
+    objectFit: "cover",
+    borderRadius: "8px"
   },
 
-  button: {
+  bookBtn: {
     marginTop: "10px",
     padding: "10px",
     background: "#1dbf73",
@@ -171,17 +198,19 @@ const styles = {
     borderRadius: "8px",
     color: "white",
     fontWeight: "bold",
-    width: "100%"
+    width: "100%",
+    cursor: "pointer"
   },
 
   deleteBtn: {
     marginTop: "8px",
-    padding: "5px",
+    padding: "8px",
     background: "#ff4d4d",
     border: "none",
     borderRadius: "6px",
     color: "white",
-    width: "40px"
+    width: "100%",
+    cursor: "pointer"
   },
 
   reviewBox: {
@@ -189,13 +218,13 @@ const styles = {
   },
 
   review: {
-  background: "#334155",
-  padding: "6px",
-  borderRadius: "5px",
-  marginTop: "5px",
-  fontSize: "12px",
-  color: "white"
-}
+    background: "#334155",
+    padding: "6px",
+    borderRadius: "5px",
+    marginTop: "5px",
+    fontSize: "12px",
+    color: "white"
+  }
 };
 
 export default Services;
