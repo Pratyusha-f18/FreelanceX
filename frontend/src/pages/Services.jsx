@@ -65,7 +65,12 @@ function Services() {
   );
 
   return (
-    <div style={{ padding: "30px", color: "#111" }}>
+    <div style={{
+  padding: "30px",
+  background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
+  minHeight: "100vh",
+  color: "white"
+}}>
       <h2>Services 🔍</h2>
 
       <div style={styles.grid}>
@@ -145,11 +150,12 @@ const styles = {
   },
 
   card: {
-    background: "white",
-    borderRadius: "10px",
-    padding: "15px",
-    color: "#111"
-  },
+  background: "#1e293b",
+  borderRadius: "12px",
+  padding: "15px",
+  color: "white",
+  boxShadow: "0 5px 15px rgba(0,0,0,0.3)"
+},
 
   image: {
     width: "100%",
@@ -183,12 +189,13 @@ const styles = {
   },
 
   review: {
-    background: "#f1f5f9",
-    padding: "6px",
-    borderRadius: "5px",
-    marginTop: "5px",
-    fontSize: "12px"
-  }
+  background: "#334155",
+  padding: "6px",
+  borderRadius: "5px",
+  marginTop: "5px",
+  fontSize: "12px",
+  color: "white"
+}
 };
 
 export default Services;
